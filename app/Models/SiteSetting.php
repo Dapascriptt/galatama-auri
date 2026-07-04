@@ -19,6 +19,7 @@ class SiteSetting extends Model
         'hero_secondary_text',
         'hero_secondary_link',
         'hero_image',
+        'poster_image',
         'about_title',
         'about_description',
         'about_image',

@@ -1,16 +1,16 @@
 :root {
-  --ink: #17211c;
-  --ink-soft: #55635c;
-  --paper: #faf7f0;
-  --paper-alt: #f2ede1;
-  --pine: #175c48;
-  --pine-deep: #0e352a;
-  --pine-night: #0a2a21;
-  --cream: #f5f0e4;
-  --cream-dim: rgba(245, 240, 228, 0.62);
-  --brass: #c99e4f;
-  --line: rgba(23, 33, 28, 0.14);
-  --line-light: rgba(245, 240, 228, 0.16);
+  --ink: #101f33;
+  --ink-soft: #52627a;
+  --paper: #ffffff;
+  --paper-alt: #eff4fa;
+  --pine: #14559c;
+  --pine-deep: #0d3568;
+  --pine-night: #081f3d;
+  --cream: #f2f7fd;
+  --cream-dim: rgba(242, 247, 253, 0.65);
+  --brass: #d9a441;
+  --line: rgba(16, 31, 51, 0.14);
+  --line-light: rgba(242, 247, 253, 0.16);
   --radius: 6px;
   --max-width: 1180px;
   --font-display: "Fraunces", Georgia, serif;
@@ -161,12 +161,12 @@ h3 {
 
 .btn-outline {
   color: var(--pine);
-  border-color: rgba(23, 92, 72, 0.4);
+  border-color: rgba(20, 85, 156, 0.4);
 }
 
 .btn-outline:hover {
   border-color: var(--pine);
-  background: rgba(23, 92, 72, 0.06);
+  background: rgba(20, 85, 156, 0.06);
 }
 
 .btn-light {
@@ -180,12 +180,12 @@ h3 {
 
 .btn-glass {
   color: var(--cream);
-  border-color: rgba(245, 240, 228, 0.4);
+  border-color: rgba(242, 247, 253, 0.4);
 }
 
 .btn-glass:hover {
   border-color: var(--cream);
-  background: rgba(245, 240, 228, 0.1);
+  background: rgba(242, 247, 253, 0.1);
 }
 
 .actions {
@@ -215,7 +215,7 @@ h3 {
 
 .site-nav.scrolled {
   color: var(--ink);
-  background: rgba(250, 247, 240, 0.9);
+  background: rgba(255, 255, 255, 0.9);
   border-bottom-color: var(--line);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -355,8 +355,8 @@ h3 {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(78deg, rgba(8, 27, 21, 0.92) 8%, rgba(8, 27, 21, 0.62) 52%, rgba(8, 27, 21, 0.3) 100%),
-    linear-gradient(to top, rgba(8, 27, 21, 0.85), transparent 38%);
+    linear-gradient(78deg, rgba(6, 20, 38, 0.92) 8%, rgba(6, 20, 38, 0.62) 52%, rgba(6, 20, 38, 0.3) 100%),
+    linear-gradient(to top, rgba(6, 20, 38, 0.85), transparent 38%);
 }
 
 .hero-inner {
@@ -372,7 +372,7 @@ h3 {
 .hero h1 {
   margin: 0 0 26px;
   font-size: clamp(2.6rem, 6.2vw, 4.8rem);
-  color: #fdfbf5;
+  color: #f8fbff;
 }
 
 .hero .lead {
@@ -386,7 +386,7 @@ h3 {
   position: relative;
   z-index: 1;
   border-top: 1px solid var(--line-light);
-  background: rgba(8, 27, 21, 0.35);
+  background: rgba(6, 20, 38, 0.35);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -547,7 +547,7 @@ h3 {
   max-width: calc(100% - 32px);
   padding: 6px 12px;
   color: var(--cream);
-  background: rgba(10, 42, 33, 0.78);
+  background: rgba(8, 31, 61, 0.78);
   border-radius: 4px;
   font-size: 0.82rem;
   font-weight: 500;
@@ -562,7 +562,7 @@ h3 {
   z-index: 3;
   height: 2px;
   overflow: hidden;
-  background: rgba(245, 240, 228, 0.35);
+  background: rgba(242, 247, 253, 0.35);
   border-radius: 99px;
 }
 
@@ -615,7 +615,7 @@ h3 {
   right: 0;
   font-family: var(--font-display);
   font-size: 0.95rem;
-  color: rgba(245, 240, 228, 0.35);
+  color: rgba(242, 247, 253, 0.35);
 }
 
 .facility-icon {
@@ -635,12 +635,12 @@ h3 {
 .facility-item h3 {
   margin-bottom: 10px;
   font-size: 1.28rem;
-  color: #fdfbf5;
+  color: #f8fbff;
 }
 
 .facility-item p {
   margin: 0;
-  color: rgba(245, 240, 228, 0.6);
+  color: rgba(242, 247, 253, 0.6);
   font-size: 0.96rem;
 }
 
@@ -680,11 +680,48 @@ h3 {
   max-width: calc(100% - 24px);
   padding: 5px 11px;
   color: var(--cream);
-  background: rgba(10, 42, 33, 0.78);
+  background: rgba(8, 31, 61, 0.78);
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.04em;
+}
+
+/* ---------- Paket / Poster ---------- */
+
+.poster-figure {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  margin: 0;
+}
+
+.poster-frame {
+  display: block;
+  width: min(100%, 560px);
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 28px 64px rgba(8, 31, 61, 0.16);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.poster-frame:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 36px 76px rgba(8, 31, 61, 0.22);
+}
+
+.poster-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.poster-figure figcaption {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
 }
 
 /* ---------- Paket / Harga ---------- */
@@ -696,7 +733,7 @@ h3 {
   padding: clamp(40px, 6vw, 64px);
   color: var(--cream);
   background:
-    radial-gradient(120% 140% at 85% -20%, rgba(201, 158, 79, 0.16), transparent 55%),
+    radial-gradient(120% 140% at 85% -20%, rgba(217, 164, 65, 0.16), transparent 55%),
     var(--pine-deep);
   border-radius: 10px;
   text-align: center;
@@ -707,7 +744,7 @@ h3 {
   margin: 0 0 22px;
   padding: 6px 14px;
   color: var(--brass);
-  border: 1px solid rgba(201, 158, 79, 0.45);
+  border: 1px solid rgba(217, 164, 65, 0.45);
   border-radius: 99px;
   font-size: 0.72rem;
   font-weight: 600;
@@ -717,7 +754,7 @@ h3 {
 
 .price-panel h3 {
   font-size: clamp(1.5rem, 3vw, 2rem);
-  color: #fdfbf5;
+  color: #f8fbff;
 }
 
 .price-desc {
@@ -733,7 +770,7 @@ h3 {
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #fdfbf5;
+  color: #f8fbff;
 }
 
 .price-features {
@@ -935,7 +972,7 @@ h3 {
 
 .footer {
   padding: 64px 0 36px;
-  color: rgba(245, 240, 228, 0.6);
+  color: rgba(242, 247, 253, 0.6);
   background: var(--pine-night);
 }
 
@@ -953,7 +990,7 @@ h3 {
   font-family: var(--font-display);
   font-size: 1.4rem;
   font-weight: 600;
-  color: #fdfbf5;
+  color: #f8fbff;
 }
 
 .footer-nav {
@@ -1002,7 +1039,7 @@ h3 {
   align-items: center;
   justify-content: center;
   padding: 28px;
-  background: rgba(8, 20, 16, 0.9);
+  background: rgba(5, 16, 32, 0.9);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
@@ -1028,8 +1065,8 @@ h3 {
   width: 46px;
   height: 46px;
   color: var(--cream);
-  background: rgba(245, 240, 228, 0.08);
-  border: 1px solid rgba(245, 240, 228, 0.3);
+  background: rgba(242, 247, 253, 0.08);
+  border: 1px solid rgba(242, 247, 253, 0.3);
   border-radius: 99px;
   font-size: 24px;
   transition: background 0.2s ease;
@@ -1037,7 +1074,7 @@ h3 {
 
 .lightbox-close:hover,
 .lightbox-nav:hover {
-  background: rgba(245, 240, 228, 0.18);
+  background: rgba(242, 247, 253, 0.18);
 }
 
 .lightbox-close {
@@ -1188,7 +1225,7 @@ h3 {
     color: var(--ink);
     background: var(--paper);
     border-bottom: 1px solid var(--line);
-    box-shadow: 0 24px 48px rgba(10, 30, 24, 0.18);
+    box-shadow: 0 24px 48px rgba(8, 31, 61, 0.18);
     opacity: 0;
     pointer-events: none;
     transform: translateY(-10px);

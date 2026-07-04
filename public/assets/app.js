@@ -199,7 +199,7 @@ const lightboxImage = document.getElementById('lightboxImage');
 const lightboxClose = document.getElementById('lightboxClose');
 const lightboxPrev = document.getElementById('lightboxPrev');
 const lightboxNext = document.getElementById('lightboxNext');
-const galleryImages = Array.from(document.querySelectorAll('.gallery-item img'));
+const galleryImages = Array.from(document.querySelectorAll('.poster-frame img, .gallery-item img'));
 let currentIndex = 0;
 let lastFocus = null;
 
@@ -237,7 +237,7 @@ const moveLightbox = (direction) => {
 };
 
 galleryImages.forEach((image, index) => {
-  image.closest('.gallery-item')?.addEventListener('click', () => openLightbox(index));
+  image.closest('.gallery-item, .poster-frame')?.addEventListener('click', () => openLightbox(index));
 });
 
 lightboxClose?.addEventListener('click', closeLightbox);

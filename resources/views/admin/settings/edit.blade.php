@@ -65,6 +65,16 @@
         </label>
 
         <hr>
+        <h2>Poster Galatama</h2>
+        <label>Poster (A3/A4/A5, orientasi bebas — tampil di halaman Paket)
+            <input type="file" name="poster_image" accept="image/png,image/jpeg,image/webp">
+            @if($imageUrl($setting->poster_image))
+                <img class="preview-img preview-poster" src="{{ $imageUrl($setting->poster_image) }}" alt="Preview poster" width="220" height="311" loading="lazy">
+            @endif
+            @error('poster_image') <small class="form-error">{{ $message }}</small> @enderror
+        </label>
+
+        <hr>
         <h2>Tentang</h2>
         <label>Judul
             <input name="about_title" value="{{ old('about_title', $setting->about_title) }}">

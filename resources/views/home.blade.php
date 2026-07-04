@@ -6,6 +6,7 @@
         : null;
     $siteUrl = url('/');
     $heroImage = $imageUrl($setting->hero_image);
+    $posterImage = $imageUrl($setting->poster_image);
     $aboutImage = $imageUrl($setting->about_image);
     $waNumber = preg_replace('/\D+/', '', $contact->whatsapp ?? '');
     $dailyPackage = $packages->firstWhere('is_featured', true) ?: $packages->first();
@@ -94,11 +95,11 @@
             </a>
             <nav class="nav-menu" id="navMenu" aria-label="Navigasi utama">
                 <a class="nav-link active" href="#beranda">Beranda</a>
+                <a class="nav-link" href="#paket">Paket</a>
+                <a class="nav-link" href="#peserta">Peserta</a>
                 <a class="nav-link" href="#tentang">Tentang</a>
                 <a class="nav-link" href="#fasilitas">Fasilitas</a>
                 <a class="nav-link" href="#galeri">Galeri</a>
-                <a class="nav-link" href="#paket">Paket</a>
-                <a class="nav-link" href="#peserta">Peserta</a>
                 <a class="nav-link" href="#kontak">Kontak</a>
             </nav>
             <div class="nav-actions">
@@ -147,6 +148,84 @@
                     </div>
                 </div>
             @endif
+        </section>
+
+        <section class="section section-alt reveal" id="paket">
+            <div class="container">
+                <div class="section-head section-head-center">
+                    <p class="eyebrow">Paket &amp; Harga</p>
+                    <h2>Galatama Harian</h2>
+                    <p>Info jadwal, lapak, dan harga terbaru langsung dari pengelola kolam.</p>
+                </div>
+                @if($posterImage)
+                    <figure class="poster-figure">
+                        <button class="poster-frame" type="button" aria-label="Perbesar poster galatama">
+                            <img src="{{ $posterImage }}" alt="Poster galatama {{ $setting->site_name }}" loading="lazy">
+                        </button>
+                        <figcaption>Klik poster untuk memperbesar.</figcaption>
+                    </figure>
+                @elseif($dailyPackage)
+                    <article class="price-panel">
+                        <p class="price-tag">Update Hari Ini</p>
+                        <h3>{{ $dailyPackage->name }}</h3>
+                        @if($dailyPackage->description)
+                            <p class="price-desc">{{ $dailyPackage->description }}</p>
+                        @endif
+                        <p class="price-amount">{{ $dailyPackage->price }}</p>
+                        @if($dailyPackage->features)
+                            <ul class="price-features">
+                                @foreach($dailyPackage->features as $feature)
+                                    <li>{!! $icon('check', 17) !!}{{ $feature }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                        @if($waNumber)
+                            <a class="btn btn-light" href="https://wa.me/{{ $waNumber }}?text={{ urlencode('Halo '.$setting->site_name.', saya ingin ikut galatama harian.') }}" target="_blank" rel="noopener">
+                                Daftar via WhatsApp
+                                {!! $icon('arrow', 18) !!}
+                            </a>
+                        @endif
+                    </article>
+                @endif
+            </div>
+        </section>
+
+        <section class="section reveal" id="peserta">
+            <div class="container">
+                <div class="section-head section-head-row">
+                    <div>
+                        <p class="eyebrow">Peserta</p>
+                        <h2>Daftar peserta galatama</h2>
+                    </div>
+                    <p class="section-note">Peserta aktif untuk sesi galatama harian.</p>
+                </div>
+                @if($participants->isNotEmpty())
+                    <details class="participant-accordion">
+                        <summary>
+                            <span class="participant-summary-label">Lihat daftar peserta</span>
+                            <span class="participant-summary-meta">
+                                <span class="participant-count">{{ $participants->count() }} peserta</span>
+                                {!! $icon('chevron', 20) !!}
+                            </span>
+                        </summary>
+                        <div class="participant-list">
+                            @foreach($participants as $participant)
+                                <article class="participant-item">
+                                    <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <div>
+                                        <h3>{{ $participant->name }}</h3>
+                                        @if($participant->note)
+                                            <p>{{ $participant->note }}</p>
+                                        @endif
+                                    </div>
+                                </article>
+                            @endforeach
+                        </div>
+                    </details>
+                @else
+                    <p class="empty-note">Belum ada peserta terdaftar untuk sesi hari ini.</p>
+                @endif
+            </div>
         </section>
 
         @php
@@ -242,77 +321,6 @@
             </div>
         </section>
 
-        <section class="section section-alt reveal" id="paket">
-            <div class="container">
-                <div class="section-head section-head-center">
-                    <p class="eyebrow">Harga Harian</p>
-                    <h2>Galatama Harian</h2>
-                    <p>Harga diperbarui setiap hari sesuai jadwal dan kebijakan kolam.</p>
-                </div>
-                @if($dailyPackage)
-                    <article class="price-panel">
-                        <p class="price-tag">Update Hari Ini</p>
-                        <h3>{{ $dailyPackage->name }}</h3>
-                        @if($dailyPackage->description)
-                            <p class="price-desc">{{ $dailyPackage->description }}</p>
-                        @endif
-                        <p class="price-amount">{{ $dailyPackage->price }}</p>
-                        @if($dailyPackage->features)
-                            <ul class="price-features">
-                                @foreach($dailyPackage->features as $feature)
-                                    <li>{!! $icon('check', 17) !!}{{ $feature }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
-                        @if($waNumber)
-                            <a class="btn btn-light" href="https://wa.me/{{ $waNumber }}?text={{ urlencode('Halo '.$setting->site_name.', saya ingin ikut galatama harian.') }}" target="_blank" rel="noopener">
-                                Daftar via WhatsApp
-                                {!! $icon('arrow', 18) !!}
-                            </a>
-                        @endif
-                    </article>
-                @endif
-            </div>
-        </section>
-
-        <section class="section reveal" id="peserta">
-            <div class="container">
-                <div class="section-head section-head-row">
-                    <div>
-                        <p class="eyebrow">Peserta</p>
-                        <h2>Daftar peserta galatama</h2>
-                    </div>
-                    <p class="section-note">Peserta aktif untuk sesi galatama harian.</p>
-                </div>
-                @if($participants->isNotEmpty())
-                    <details class="participant-accordion">
-                        <summary>
-                            <span class="participant-summary-label">Lihat daftar peserta</span>
-                            <span class="participant-summary-meta">
-                                <span class="participant-count">{{ $participants->count() }} peserta</span>
-                                {!! $icon('chevron', 20) !!}
-                            </span>
-                        </summary>
-                        <div class="participant-list">
-                            @foreach($participants as $participant)
-                                <article class="participant-item">
-                                    <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                    <div>
-                                        <h3>{{ $participant->name }}</h3>
-                                        @if($participant->note)
-                                            <p>{{ $participant->note }}</p>
-                                        @endif
-                                    </div>
-                                </article>
-                            @endforeach
-                        </div>
-                    </details>
-                @else
-                    <p class="empty-note">Belum ada peserta terdaftar untuk sesi hari ini.</p>
-                @endif
-            </div>
-        </section>
-
         <section class="section section-alt reveal" id="kontak">
             <div class="container">
                 <div class="section-head">
@@ -360,10 +368,11 @@
             <div class="footer-top">
                 <p class="footer-brand">{{ $setting->site_name }}</p>
                 <nav class="footer-nav" aria-label="Navigasi footer">
+                    <a href="#paket">Paket</a>
+                    <a href="#peserta">Peserta</a>
                     <a href="#tentang">Tentang</a>
                     <a href="#fasilitas">Fasilitas</a>
                     <a href="#galeri">Galeri</a>
-                    <a href="#paket">Paket</a>
                     <a href="#kontak">Kontak</a>
                 </nav>
             </div>

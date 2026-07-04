@@ -35,6 +35,7 @@ class SettingsController extends Controller
             'hero_secondary_text' => ['nullable', 'string', 'max:80'],
             'hero_secondary_link' => ['nullable', 'string', 'max:120'],
             'hero_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'poster_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'about_title' => ['nullable', 'string', 'max:180'],
             'about_description' => ['nullable', 'string', 'max:1200'],
             'about_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
@@ -47,6 +48,11 @@ class SettingsController extends Controller
         if ($request->hasFile('hero_image')) {
             $this->deletePublicImage($setting->hero_image);
             $data['hero_image'] = $this->storePublicImage($request->file('hero_image'), 'settings');
+        }
+
+        if ($request->hasFile('poster_image')) {
+            $this->deletePublicImage($setting->poster_image);
+            $data['poster_image'] = $this->storePublicImage($request->file('poster_image'), 'settings');
         }
 
         if ($request->hasFile('about_image')) {
