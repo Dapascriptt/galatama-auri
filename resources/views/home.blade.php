@@ -163,6 +163,12 @@
                             <img src="{{ $posterImage }}" alt="Poster galatama {{ $setting->site_name }}" loading="lazy">
                         </button>
                         <figcaption>Klik poster untuk memperbesar.</figcaption>
+                        @if($waNumber)
+                            <a class="btn btn-primary poster-cta" href="https://wa.me/{{ $waNumber }}?text={{ urlencode('Halo '.$setting->site_name.', saya ingin daftar galatama harian.') }}" target="_blank" rel="noopener">
+                                Daftar via WhatsApp
+                                {!! $icon('arrow', 18) !!}
+                            </a>
+                        @endif
                     </figure>
                 @elseif($dailyPackage)
                     <article class="price-panel">

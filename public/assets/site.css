@@ -724,6 +724,11 @@ h3 {
   font-size: 0.85rem;
 }
 
+.poster-cta {
+  margin-top: 6px;
+  min-width: min(100%, 300px);
+}
+
 /* ---------- Paket / Harga ---------- */
 
 .price-panel {
