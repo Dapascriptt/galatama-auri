@@ -35,7 +35,7 @@ class SettingsController extends Controller
             'hero_secondary_text' => ['nullable', 'string', 'max:80'],
             'hero_secondary_link' => ['nullable', 'string', 'max:120'],
             'hero_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            'poster_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'poster_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:8192'],
             'about_title' => ['nullable', 'string', 'max:180'],
             'about_description' => ['nullable', 'string', 'max:1200'],
             'about_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
