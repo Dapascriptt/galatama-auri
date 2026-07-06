@@ -57,12 +57,14 @@ class ParticipantController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
+            'category' => ['nullable', 'in:'.implode(',', Participant::CATEGORIES)],
             'phone' => ['nullable', 'string', 'max:40'],
             'note' => ['nullable', 'string', 'max:160'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:999'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
+        $data['category'] = $data['category'] ?? null;
         $data['sort_order'] = $data['sort_order'] ?? 0;
         $data['is_active'] = $request->boolean('is_active');
 

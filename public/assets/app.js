@@ -133,6 +133,21 @@ if (prefersReducedMotion) {
   revealItems.forEach((item) => revealObserver.observe(item));
 }
 
+document.querySelectorAll('[data-winner-tabs]').forEach((tabs) => {
+  const buttons = Array.from(tabs.querySelectorAll('[data-winner-tab]'));
+  const scope = tabs.closest('.about-media') || document;
+  const panels = Array.from(scope.querySelectorAll('[data-winner-panel]'));
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      buttons.forEach((b) => b.classList.toggle('active', b === button));
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.winnerPanel !== button.dataset.winnerTab;
+      });
+    });
+  });
+});
+
 document.querySelectorAll('[data-slider]').forEach((slider) => {
   const slides = Array.from(slider.querySelectorAll('[data-slide]'));
   const dots = Array.from(slider.querySelectorAll('[data-slider-dot]'));

@@ -71,11 +71,15 @@ class WinnerController extends Controller
     {
         $data = $request->validate([
             'caption' => ['nullable', 'string', 'max:160'],
+            'category' => ['nullable', 'in:'.implode(',', Winner::CATEGORIES)],
+            'rank' => ['nullable', 'in:'.implode(',', array_keys(Winner::RANKS))],
             'image' => [$requireImage ? 'required' : 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:999'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
+        $data['category'] = $data['category'] ?? null;
+        $data['rank'] = $data['rank'] ?? null;
         $data['sort_order'] = $data['sort_order'] ?? 0;
         $data['is_active'] = $request->boolean('is_active');
 

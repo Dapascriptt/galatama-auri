@@ -7,8 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Winner extends Model
 {
+    public const CATEGORIES = ['A1', 'A2', 'A3', 'A5', 'BS', 'C'];
+
+    public const RANKS = [
+        '1' => 'Juara 1',
+        '2' => 'Juara 2',
+        '3' => 'Juara 3',
+        'merah' => 'Juara Merah',
+    ];
+
     protected $fillable = [
         'image',
+        'category',
+        'rank',
         'caption',
         'sort_order',
         'is_active',

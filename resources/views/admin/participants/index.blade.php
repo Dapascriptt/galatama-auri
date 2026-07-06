@@ -13,11 +13,12 @@
         </div>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>Nama</th><th>Kontak</th><th>Status</th><th>Aksi</th></tr></thead>
+                <thead><tr><th>Nama</th><th>Kategori</th><th>Kontak</th><th>Status</th><th>Aksi</th></tr></thead>
                 <tbody>
                     @forelse($participants as $participant)
                         <tr>
                             <td><strong>{{ $participant->name }}</strong><small>{{ $participant->note }}</small></td>
+                            <td>{{ $participant->category ?: '-' }}</td>
                             <td>{{ $participant->phone ?: '-' }}</td>
                             <td>{{ $participant->is_active ? 'Aktif' : 'Nonaktif' }} / Urutan {{ $participant->sort_order }}</td>
                             <td class="row-actions">

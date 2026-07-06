@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Participant extends Model
 {
+    public const CATEGORIES = ['A1', 'A2', 'A3', 'A5', 'BS', 'C'];
+
     protected $fillable = [
         'name',
+        'category',
         'phone',
         'note',
         'sort_order',

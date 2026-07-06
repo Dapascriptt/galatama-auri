@@ -3,13 +3,22 @@
     @error('name') <small class="form-error">{{ $message }}</small> @enderror
 </label>
 <div class="form-grid two">
+    <label>Kategori (opsional, sesuai sesi)
+        <select name="category">
+            <option value="">Tanpa kategori</option>
+            @foreach(\App\Models\Participant::CATEGORIES as $category)
+                <option value="{{ $category }}" @selected(old('category', $participant->category) === $category)>{{ $category }}</option>
+            @endforeach
+        </select>
+        @error('category') <small class="form-error">{{ $message }}</small> @enderror
+    </label>
     <label>Nomor WhatsApp / Telepon
         <input name="phone" value="{{ old('phone', $participant->phone) }}">
     </label>
-    <label>Urutan
-        <input type="number" min="0" name="sort_order" value="{{ old('sort_order', $participant->sort_order ?? 0) }}">
-    </label>
 </div>
+<label>Urutan
+    <input type="number" min="0" name="sort_order" value="{{ old('sort_order', $participant->sort_order ?? 0) }}">
+</label>
 <label>Catatan
     <input name="note" value="{{ old('note', $participant->note) }}" placeholder="Contoh: Meja 01, komunitas, atau status pembayaran">
 </label>

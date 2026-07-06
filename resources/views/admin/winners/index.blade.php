@@ -19,6 +19,10 @@
                 <article>
                     <img src="{{ $src }}" alt="{{ $winner->caption ?: 'Pemenang' }}" width="220" height="150" loading="lazy">
                     <strong>{{ $winner->caption ?: 'Tanpa keterangan' }}</strong>
+                    <span>
+                        {{ $winner->category ? 'Kategori '.$winner->category : 'Tanpa kategori' }}
+                        @if($winner->rank) - {{ \App\Models\Winner::RANKS[$winner->rank] ?? $winner->rank }} @endif
+                    </span>
                     <span>{{ $winner->is_active ? 'Aktif' : 'Nonaktif' }} - Urutan {{ $winner->sort_order }}</span>
                     <div class="row-actions">
                         <a href="{{ route('admin.winners.edit', $winner) }}">Edit</a>

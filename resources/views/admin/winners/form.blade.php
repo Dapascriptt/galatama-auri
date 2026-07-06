@@ -10,8 +10,28 @@
     @endif
     @error('image') <small class="form-error">{{ $message }}</small> @enderror
 </label>
-<label>Keterangan (nama pemenang / sesi)
-    <input name="caption" value="{{ old('caption', $winner->caption) }}" placeholder="cth: Pak Budi - Juara 1, Sesi 21 Juni">
+<div class="form-grid two">
+    <label>Kategori (opsional, sesuai sesi)
+        <select name="category">
+            <option value="">Tanpa kategori</option>
+            @foreach(\App\Models\Winner::CATEGORIES as $category)
+                <option value="{{ $category }}" @selected(old('category', $winner->category) === $category)>{{ $category }}</option>
+            @endforeach
+        </select>
+        @error('category') <small class="form-error">{{ $message }}</small> @enderror
+    </label>
+    <label>Juara
+        <select name="rank">
+            <option value="">Tanpa gelar</option>
+            @foreach(\App\Models\Winner::RANKS as $value => $label)
+                <option value="{{ $value }}" @selected(old('rank', $winner->rank) === (string) $value)>{{ $label }}</option>
+            @endforeach
+        </select>
+        @error('rank') <small class="form-error">{{ $message }}</small> @enderror
+    </label>
+</div>
+<label>Nama pemenang / keterangan
+    <input name="caption" value="{{ old('caption', $winner->caption) }}" placeholder="cth: Pak Budi - 4,2 kg">
 </label>
 <label>Urutan
     <input type="number" min="0" name="sort_order" value="{{ old('sort_order', $winner->sort_order ?? 0) }}">

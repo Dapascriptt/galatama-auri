@@ -497,13 +497,79 @@ h3 {
   position: relative;
 }
 
-.about-media::before {
+.winner-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.winner-tab {
+  min-height: 38px;
+  padding: 7px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.winner-tab:hover {
+  border-color: var(--pine);
+  color: var(--pine);
+}
+
+.winner-tab.active {
+  background: var(--pine);
+  border-color: var(--pine);
+  color: #fff;
+}
+
+.winner-panel {
+  position: relative;
+}
+
+.winner-panel::before {
   content: "";
   position: absolute;
   inset: 18px -18px -18px 18px;
   border: 1px solid var(--brass);
   border-radius: var(--radius);
   pointer-events: none;
+}
+
+.winner-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 12px rgba(8, 31, 61, 0.25);
+}
+
+.winner-badge-1 {
+  color: #3a2c07;
+  background: linear-gradient(135deg, #e8c15c, #c9971f);
+}
+
+.winner-badge-2 {
+  background: linear-gradient(135deg, #94a3b8, #64748b);
+}
+
+.winner-badge-3 {
+  background: linear-gradient(135deg, #c07a3e, #99552a);
+}
+
+.winner-badge-merah {
+  background: linear-gradient(135deg, #e05252, #b91c1c);
 }
 
 .about-slider {
@@ -802,11 +868,29 @@ h3 {
 
 /* ---------- Peserta ---------- */
 
+.participant-accordions {
+  display: grid;
+  gap: 12px;
+}
+
 .participant-accordion {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #fff;
   overflow: hidden;
+}
+
+.participant-category {
+  align-self: center;
+  margin-left: auto;
+  padding: 3px 10px;
+  color: var(--pine);
+  background: rgba(20, 85, 156, 0.08);
+  border: 1px solid rgba(20, 85, 156, 0.2);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .participant-accordion summary {

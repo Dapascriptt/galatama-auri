@@ -204,29 +204,58 @@
                     </div>
                     <p class="section-note">Peserta aktif untuk sesi galatama harian.</p>
                 </div>
+                @php
+                    $participantGroups = $participants
+                        ->filter(fn ($participant) => $participant->category)
+                        ->groupBy('category')
+                        ->sortBy(fn ($items, $category) => array_search($category, App\Models\Participant::CATEGORIES));
+                @endphp
                 @if($participants->isNotEmpty())
-                    <details class="participant-accordion">
-                        <summary>
-                            <span class="participant-summary-label">Lihat daftar peserta</span>
-                            <span class="participant-summary-meta">
-                                <span class="participant-count">{{ $participants->count() }} peserta</span>
-                                {!! $icon('chevron', 20) !!}
-                            </span>
-                        </summary>
-                        <div class="participant-list">
-                            @foreach($participants as $participant)
-                                <article class="participant-item">
-                                    <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                    <div>
-                                        <h3>{{ $participant->name }}</h3>
-                                        @if($participant->note)
-                                            <p>{{ $participant->note }}</p>
+                    <div class="participant-accordions">
+                        <details class="participant-accordion">
+                            <summary>
+                                <span class="participant-summary-label">Seluruh peserta</span>
+                                <span class="participant-summary-meta">
+                                    <span class="participant-count">{{ $participants->count() }} peserta</span>
+                                    {!! $icon('chevron', 20) !!}
+                                </span>
+                            </summary>
+                            <div class="participant-list">
+                                @foreach($participants as $participant)
+                                    <article class="participant-item">
+                                        <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                        <div>
+                                            <h3>{{ $participant->name }}</h3>
+                                        </div>
+                                        @if($participant->category)
+                                            <span class="participant-category">{{ $participant->category }}</span>
                                         @endif
-                                    </div>
-                                </article>
-                            @endforeach
-                        </div>
-                    </details>
+                                    </article>
+                                @endforeach
+                            </div>
+                        </details>
+                        @foreach($participantGroups as $category => $items)
+                            <details class="participant-accordion">
+                                <summary>
+                                    <span class="participant-summary-label">Kategori {{ $category }}</span>
+                                    <span class="participant-summary-meta">
+                                        <span class="participant-count">{{ $items->count() }} peserta</span>
+                                        {!! $icon('chevron', 20) !!}
+                                    </span>
+                                </summary>
+                                <div class="participant-list">
+                                    @foreach($items as $participant)
+                                        <article class="participant-item">
+                                            <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                            <div>
+                                                <h3>{{ $participant->name }}</h3>
+                                            </div>
+                                        </article>
+                                    @endforeach
+                                </div>
+                            </details>
+                        @endforeach
+                    </div>
                 @else
                     <p class="empty-note">Belum ada peserta terdaftar untuk sesi hari ini.</p>
                 @endif
@@ -234,35 +263,49 @@
         </section>
 
         @php
-            $aboutSlides = collect();
+            use App\Models\Winner;
 
-            foreach ($winners as $winner) {
-                $src = $imageUrl($winner->image);
-                if ($src && ! $aboutSlides->contains('src', $src)) {
-                    $aboutSlides->push([
-                        'src' => $src,
-                        'alt' => $winner->caption ?: 'Pemenang galatama harian '.$setting->site_name,
-                        'caption' => $winner->caption ?: 'Pemenang Galatama',
-                    ]);
-                }
-            }
+            $rankOrder = array_flip(array_keys(Winner::RANKS));
+            $categoryOrder = array_flip(Winner::CATEGORIES);
+
+            $winnerGroups = $winners
+                ->filter(fn ($winner) => $imageUrl($winner->image))
+                ->groupBy(fn ($winner) => $winner->category ?: 'Umum')
+                ->map(fn ($items) => $items->sortBy(fn ($winner) => $rankOrder[$winner->rank] ?? 99)->values())
+                ->sortBy(fn ($items, $category) => $categoryOrder[$category] ?? 99);
         @endphp
 
         <section class="section reveal" id="tentang">
             <div class="container split">
-                @if($aboutSlides->isNotEmpty())
+                @if($winnerGroups->isNotEmpty())
                     <div class="about-media">
-                        <div class="about-slider" data-slider aria-label="Slider foto pemenang galatama harian">
-                            <div class="about-slider-track">
-                                @foreach($aboutSlides as $slide)
-                                    <figure class="about-slide @if($loop->first) active @endif" data-slide>
-                                        <img src="{{ $slide['src'] }}" alt="{{ $slide['alt'] }}" width="560" height="420" loading="lazy">
-                                        <figcaption>{{ $slide['caption'] }}</figcaption>
-                                    </figure>
+                        @if($winnerGroups->count() > 1)
+                            <div class="winner-tabs" data-winner-tabs role="tablist" aria-label="Kategori pemenang">
+                                @foreach($winnerGroups as $category => $items)
+                                    <button type="button" class="winner-tab @if($loop->first) active @endif" data-winner-tab="{{ $category }}">{{ $category }}</button>
                                 @endforeach
                             </div>
-                            <div class="slider-progress" aria-hidden="true"></div>
-                        </div>
+                        @endif
+                        @foreach($winnerGroups as $category => $items)
+                            <div class="winner-panel" data-winner-panel="{{ $category }}" @unless($loop->first) hidden @endunless>
+                                <div class="about-slider" data-slider aria-label="Foto pemenang kategori {{ $category }}">
+                                    <div class="about-slider-track">
+                                        @foreach($items as $winner)
+                                            <figure class="about-slide @if($loop->first) active @endif" data-slide>
+                                                <img src="{{ $imageUrl($winner->image) }}" alt="{{ $winner->caption ?: 'Pemenang galatama '.$setting->site_name }}" width="560" height="420" loading="lazy">
+                                                @if($winner->rank)
+                                                    <span class="winner-badge winner-badge-{{ $winner->rank }}">{{ Winner::RANKS[$winner->rank] ?? $winner->rank }}</span>
+                                                @endif
+                                                <figcaption>{{ $winner->caption ?: 'Pemenang Galatama' }}</figcaption>
+                                            </figure>
+                                        @endforeach
+                                    </div>
+                                    @if($items->count() > 1)
+                                        <div class="slider-progress" aria-hidden="true"></div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 @endif
                 <div class="about-copy">
