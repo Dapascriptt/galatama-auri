@@ -269,7 +269,6 @@
             $categoryOrder = array_flip(Winner::CATEGORIES);
 
             $winnerGroups = $winners
-                ->filter(fn ($winner) => $imageUrl($winner->image))
                 ->groupBy(fn ($winner) => $winner->category ?: 'Umum')
                 ->map(fn ($items) => $items->sortBy(fn ($winner) => $rankOrder[$winner->rank] ?? 99)->values())
                 ->sortBy(fn ($items, $category) => $categoryOrder[$category] ?? 99);
@@ -288,22 +287,28 @@
                         @endif
                         @foreach($winnerGroups as $category => $items)
                             <div class="winner-panel" data-winner-panel="{{ $category }}" @unless($loop->first) hidden @endunless>
-                                <div class="about-slider" data-slider aria-label="Foto pemenang kategori {{ $category }}">
-                                    <div class="about-slider-track">
+                                <article class="winner-board">
+                                    <header class="winner-board-head">
+                                        <h3>{{ $category === 'Umum' ? 'Pemenang' : 'Kategori '.$category }}</h3>
+                                        <span>{{ Winner::METRICS[$category] ?? 'Hasil' }}</span>
+                                    </header>
+                                    <div class="winner-rows">
                                         @foreach($items as $winner)
-                                            <figure class="about-slide @if($loop->first) active @endif" data-slide>
-                                                <img src="{{ $imageUrl($winner->image) }}" alt="{{ $winner->caption ?: 'Pemenang galatama '.$setting->site_name }}" width="560" height="420" loading="lazy">
-                                                @if($winner->rank)
-                                                    <span class="winner-badge winner-badge-{{ $winner->rank }}">{{ Winner::RANKS[$winner->rank] ?? $winner->rank }}</span>
+                                            <div class="winner-row @if($winner->rank === '1') winner-row-first @endif">
+                                                <span class="winner-medal winner-medal-{{ $winner->rank ?: 'none' }}">{{ $winner->rank === 'merah' ? 'M' : ($winner->rank ?: '•') }}</span>
+                                                <div class="winner-who">
+                                                    <strong>{{ $winner->name }}</strong>
+                                                    @if($winner->rank)
+                                                        <small>{{ Winner::RANKS[$winner->rank] ?? $winner->rank }}</small>
+                                                    @endif
+                                                </div>
+                                                @if($winner->value)
+                                                    <span class="winner-value">{{ $winner->value }}</span>
                                                 @endif
-                                                <figcaption>{{ $winner->caption ?: 'Pemenang Galatama' }}</figcaption>
-                                            </figure>
+                                            </div>
                                         @endforeach
                                     </div>
-                                    @if($items->count() > 1)
-                                        <div class="slider-progress" aria-hidden="true"></div>
-                                    @endif
-                                </div>
+                                </article>
                             </div>
                         @endforeach
                     </div>

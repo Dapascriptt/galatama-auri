@@ -11,30 +11,30 @@
             </form>
             <a class="btn btn-primary" href="{{ route('admin.winners.create') }}">Tambah</a>
         </div>
-        <div class="admin-gallery">
-            @forelse($winners as $winner)
-                @php
-                    $src = Illuminate\Support\Str::startsWith($winner->image, ['http://', 'https://']) ? $winner->image : asset('storage/'.$winner->image);
-                @endphp
-                <article>
-                    <img src="{{ $src }}" alt="{{ $winner->caption ?: 'Pemenang' }}" width="220" height="150" loading="lazy">
-                    <strong>{{ $winner->caption ?: 'Tanpa keterangan' }}</strong>
-                    <span>
-                        {{ $winner->category ? 'Kategori '.$winner->category : 'Tanpa kategori' }}
-                        @if($winner->rank) - {{ \App\Models\Winner::RANKS[$winner->rank] ?? $winner->rank }} @endif
-                    </span>
-                    <span>{{ $winner->is_active ? 'Aktif' : 'Nonaktif' }} - Urutan {{ $winner->sort_order }}</span>
-                    <div class="row-actions">
-                        <a href="{{ route('admin.winners.edit', $winner) }}">Edit</a>
-                        <form method="POST" action="{{ route('admin.winners.destroy', $winner) }}" onsubmit="return confirm('Hapus foto pemenang ini?')">
-                            @csrf @method('DELETE')
-                            <button type="submit">Hapus</button>
-                        </form>
-                    </div>
-                </article>
-            @empty
-                <p>Belum ada foto pemenang. Klik "Tambah" untuk mengunggah foto pemenang galatama harian.</p>
-            @endforelse
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Nama</th><th>Kategori</th><th>Juara</th><th>Hasil</th><th>Status</th><th>Aksi</th></tr></thead>
+                <tbody>
+                    @forelse($winners as $winner)
+                        <tr>
+                            <td><strong>{{ $winner->name }}</strong></td>
+                            <td>{{ $winner->category ?: '-' }}</td>
+                            <td>{{ $winner->rank ? (\App\Models\Winner::RANKS[$winner->rank] ?? $winner->rank) : '-' }}</td>
+                            <td>{{ $winner->value ?: '-' }}</td>
+                            <td>{{ $winner->is_active ? 'Aktif' : 'Nonaktif' }}</td>
+                            <td class="row-actions">
+                                <a href="{{ route('admin.winners.edit', $winner) }}">Edit</a>
+                                <form method="POST" action="{{ route('admin.winners.destroy', $winner) }}" onsubmit="return confirm('Hapus pemenang ini?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6">Belum ada pemenang. Klik "Tambah" untuk mengisi juara per kategori.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
         {{ $winners->links() }}
     </div>

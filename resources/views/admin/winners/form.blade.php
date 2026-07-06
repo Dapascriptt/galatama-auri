@@ -1,21 +1,13 @@
-@php
-    use Illuminate\Support\Str;
-    $imageUrl = fn (?string $path) => $path ? (Str::startsWith($path, ['http://', 'https://']) ? $path : asset('storage/'.$path)) : null;
-@endphp
-
-<label>Foto Pemenang
-    <input type="file" name="image" accept="image/png,image/jpeg,image/webp" @required(! $winner->exists)>
-    @if($imageUrl($winner->image))
-        <img class="preview-img" src="{{ $imageUrl($winner->image) }}" alt="{{ $winner->caption }}" width="160" height="110" loading="lazy">
-    @endif
-    @error('image') <small class="form-error">{{ $message }}</small> @enderror
+<label>Nama Pemenang
+    <input name="name" value="{{ old('name', $winner->name) }}" required placeholder="cth: Pak Budi">
+    @error('name') <small class="form-error">{{ $message }}</small> @enderror
 </label>
 <div class="form-grid two">
     <label>Kategori (opsional, sesuai sesi)
         <select name="category">
             <option value="">Tanpa kategori</option>
             @foreach(\App\Models\Winner::CATEGORIES as $category)
-                <option value="{{ $category }}" @selected(old('category', $winner->category) === $category)>{{ $category }}</option>
+                <option value="{{ $category }}" @selected(old('category', $winner->category) === $category)>{{ $category }} — {{ \App\Models\Winner::METRICS[$category] }}</option>
             @endforeach
         </select>
         @error('category') <small class="form-error">{{ $message }}</small> @enderror
@@ -30,8 +22,9 @@
         @error('rank') <small class="form-error">{{ $message }}</small> @enderror
     </label>
 </div>
-<label>Nama pemenang / keterangan
-    <input name="caption" value="{{ old('caption', $winner->caption) }}" placeholder="cth: Pak Budi - 4,2 kg">
+<label>Hasil
+    <input name="value" value="{{ old('value', $winner->value) }}" placeholder="cth: 4,2 kg (kategori A/C) atau 35 ekor (kategori BS)">
+    @error('value') <small class="form-error">{{ $message }}</small> @enderror
 </label>
 <label>Urutan
     <input type="number" min="0" name="sort_order" value="{{ old('sort_order', $winner->sort_order ?? 0) }}">

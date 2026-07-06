@@ -16,11 +16,20 @@ class Winner extends Model
         'merah' => 'Juara Merah',
     ];
 
+    public const METRICS = [
+        'A1' => 'Berat ikan',
+        'A2' => 'Berat ikan',
+        'A3' => 'Berat ikan',
+        'A5' => 'Berat ikan',
+        'BS' => 'Jumlah ikan keseluruhan',
+        'C' => 'Berat ikan merah',
+    ];
+
     protected $fillable = [
-        'image',
+        'name',
         'category',
         'rank',
-        'caption',
+        'value',
         'sort_order',
         'is_active',
     ];

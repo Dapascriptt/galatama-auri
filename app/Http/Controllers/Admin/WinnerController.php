@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\Concerns\ManagesUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Winner;
 use Illuminate\Http\Request;
 
 class WinnerController extends Controller
 {
-    use ManagesUploads;
-
     public function index(Request $request)
     {
         $search = $request->string('search')->toString();
 
         $winners = Winner::query()
-            ->when($search, fn ($query) => $query->where('caption', 'like', "%{$search}%"))
+            ->when($search, fn ($query) => $query->where('name', 'like', "%{$search}%"))
+            ->orderBy('category')
             ->orderBy('sort_order')
             ->latest('id')
-            ->paginate(12)
+            ->paginate(15)
             ->withQueryString();
 
         return view('admin.winners.index', compact('winners', 'search'));
@@ -32,12 +30,9 @@ class WinnerController extends Controller
 
     public function store(Request $request)
     {
-        $data = $this->validated($request, true);
-        $data['image'] = $this->storePublicImage($request->file('image'), 'winners');
+        Winner::create($this->validated($request));
 
-        Winner::create($data);
-
-        return redirect()->route('admin.winners.index')->with('success', 'Foto pemenang berhasil ditambahkan.');
+        return redirect()->route('admin.winners.index')->with('success', 'Pemenang berhasil ditambahkan.');
     }
 
     public function edit(Winner $winner)
@@ -47,33 +42,25 @@ class WinnerController extends Controller
 
     public function update(Request $request, Winner $winner)
     {
-        $data = $this->validated($request);
+        $winner->update($this->validated($request));
 
-        if ($request->hasFile('image')) {
-            $this->deletePublicImage($winner->image);
-            $data['image'] = $this->storePublicImage($request->file('image'), 'winners');
-        }
-
-        $winner->update($data);
-
-        return redirect()->route('admin.winners.index')->with('success', 'Foto pemenang berhasil diperbarui.');
+        return redirect()->route('admin.winners.index')->with('success', 'Pemenang berhasil diperbarui.');
     }
 
     public function destroy(Winner $winner)
     {
-        $this->deletePublicImage($winner->image);
         $winner->delete();
 
-        return back()->with('success', 'Foto pemenang berhasil dihapus.');
+        return back()->with('success', 'Pemenang berhasil dihapus.');
     }
 
-    private function validated(Request $request, bool $requireImage = false): array
+    private function validated(Request $request): array
     {
         $data = $request->validate([
-            'caption' => ['nullable', 'string', 'max:160'],
+            'name' => ['required', 'string', 'max:120'],
             'category' => ['nullable', 'in:'.implode(',', Winner::CATEGORIES)],
             'rank' => ['nullable', 'in:'.implode(',', array_keys(Winner::RANKS))],
-            'image' => [$requireImage ? 'required' : 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'value' => ['nullable', 'string', 'max:60'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:999'],
             'is_active' => ['nullable', 'boolean'],
         ]);
