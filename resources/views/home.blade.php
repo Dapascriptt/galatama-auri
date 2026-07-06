@@ -7,7 +7,6 @@
     $siteUrl = url('/');
     $heroImage = $imageUrl($setting->hero_image);
     $posterImage = $imageUrl($setting->poster_image);
-    $aboutImage = $imageUrl($setting->about_image);
     $waNumber = preg_replace('/\D+/', '', $contact->whatsapp ?? '');
     $dailyPackage = $packages->firstWhere('is_featured', true) ?: $packages->first();
 
@@ -236,14 +235,6 @@
 
         @php
             $aboutSlides = collect();
-
-            if ($aboutImage) {
-                $aboutSlides->push([
-                    'src' => $aboutImage,
-                    'alt' => 'Pemenang galatama harian '.$setting->site_name,
-                    'caption' => 'Galatama Harian',
-                ]);
-            }
 
             foreach ($winners as $winner) {
                 $src = $imageUrl($winner->image);
