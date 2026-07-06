@@ -245,13 +245,13 @@
                 ]);
             }
 
-            foreach ($galleries as $gallery) {
-                $src = $imageUrl($gallery->image);
+            foreach ($winners as $winner) {
+                $src = $imageUrl($winner->image);
                 if ($src && ! $aboutSlides->contains('src', $src)) {
                     $aboutSlides->push([
                         'src' => $src,
-                        'alt' => $gallery->caption ?: 'Pemenang galatama harian '.$setting->site_name,
-                        'caption' => $gallery->caption ?: 'Pemenang Galatama',
+                        'alt' => $winner->caption ?: 'Pemenang galatama harian '.$setting->site_name,
+                        'caption' => $winner->caption ?: 'Pemenang Galatama',
                     ]);
                 }
             }

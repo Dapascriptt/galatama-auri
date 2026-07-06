@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\WinnerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::resource('facilities', FacilityController::class)->except('show');
     Route::resource('galleries', GalleryController::class)->except('show');
+    Route::resource('winners', WinnerController::class)->except('show');
     Route::resource('packages', PackageController::class)->except('show');
     Route::resource('participants', ParticipantController::class)->except('show');
     Route::get('/contacts', [ContactController::class, 'edit'])->name('contacts.edit');
