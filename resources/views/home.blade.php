@@ -136,14 +136,28 @@
                 </div>
             </div>
             @if($setting->highlights)
+                @php
+                    $factIcon = function ($label) {
+                        $l = Str::lower($label ?? '');
+                        if (Str::contains($l, ['jam', 'waktu', 'buka', 'operasional'])) return 'clock';
+                        if (Str::contains($l, ['ikan', 'jenis'])) return 'fish';
+                        if (Str::contains($l, ['lokasi', 'alamat', 'tempat'])) return 'map-pin';
+                        return 'check';
+                    };
+                @endphp
                 <div class="hero-strip">
-                    <div class="container hero-strip-inner">
-                        @foreach($setting->highlights as $item)
-                            <div class="hero-fact">
-                                <span>{{ $item['label'] ?? '' }}</span>
-                                <strong>{{ $item['value'] ?? '' }}</strong>
-                            </div>
-                        @endforeach
+                    <div class="container">
+                        <div class="hero-strip-inner">
+                            @foreach($setting->highlights as $item)
+                                <div class="hero-fact">
+                                    <span class="hero-fact-icon">{!! $icon($factIcon($item['label'] ?? ''), 22) !!}</span>
+                                    <div>
+                                        <span class="hero-fact-label">{{ $item['label'] ?? '' }}</span>
+                                        <strong>{{ $item['value'] ?? '' }}</strong>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             @endif
