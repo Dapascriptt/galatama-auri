@@ -18,7 +18,7 @@
                     @forelse($participants as $participant)
                         <tr>
                             <td><strong>{{ $participant->name }}</strong><small>{{ $participant->note }}</small></td>
-                            <td>{{ $participant->category ?: '-' }}</td>
+                            <td>{{ $participant->categories ? implode(', ', $participant->categories) : '-' }}</td>
                             <td>{{ $participant->phone ?: '-' }}</td>
                             <td>{{ $participant->is_active ? 'Aktif' : 'Nonaktif' }} / Urutan {{ $participant->sort_order }}</td>
                             <td class="row-actions">

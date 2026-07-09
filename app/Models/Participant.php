@@ -11,7 +11,7 @@ class Participant extends Model
 
     protected $fillable = [
         'name',
-        'category',
+        'categories',
         'phone',
         'note',
         'sort_order',
@@ -19,6 +19,7 @@ class Participant extends Model
     ];
 
     protected $casts = [
+        'categories' => 'array',
         'is_active' => 'boolean',
     ];
 

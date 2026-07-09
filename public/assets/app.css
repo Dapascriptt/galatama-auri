@@ -375,6 +375,25 @@ textarea {
   grid-column: span 2;
 }
 
+.check-group {
+  margin: 0;
+  padding: 14px 16px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+
+.check-group legend {
+  padding: 0 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.check-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+}
+
 .check-row {
   display: flex !important;
   align-items: center;

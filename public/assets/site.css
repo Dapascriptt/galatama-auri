@@ -573,6 +573,38 @@ h3 {
   text-transform: uppercase;
 }
 
+.winner-group {
+  padding-top: 6px;
+}
+
+.winner-group + .winner-group {
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.winner-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0 4px;
+}
+
+.winner-group-head strong {
+  color: var(--pine);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.winner-group-head span {
+  color: var(--ink-soft);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .winner-row {
   display: flex;
   align-items: center;
@@ -974,9 +1006,16 @@ h3 {
   overflow: hidden;
 }
 
-.participant-category {
-  align-self: center;
+.participant-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
   margin-left: auto;
+  align-self: center;
+}
+
+.participant-category {
   padding: 3px 10px;
   color: var(--pine);
   background: rgba(20, 85, 156, 0.08);
@@ -1051,21 +1090,14 @@ h3 {
 
 .participant-item {
   display: flex;
-  gap: 22px;
-  align-items: baseline;
-  padding: 18px 0;
+  gap: 18px;
+  align-items: center;
+  padding: 16px 0;
   border-bottom: 1px solid var(--line);
 }
 
 .participant-item:last-child {
   border-bottom: 0;
-}
-
-.participant-item > span {
-  min-width: 2.2rem;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  color: var(--brass);
 }
 
 .participant-item h3 {

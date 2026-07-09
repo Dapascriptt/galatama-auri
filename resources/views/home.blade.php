@@ -205,10 +205,13 @@
                     <p class="section-note">Peserta aktif untuk sesi galatama harian.</p>
                 </div>
                 @php
-                    $participantGroups = $participants
-                        ->filter(fn ($participant) => $participant->category)
-                        ->groupBy('category')
-                        ->sortBy(fn ($items, $category) => array_search($category, App\Models\Participant::CATEGORIES));
+                    $participantGroups = collect(App\Models\Participant::CATEGORIES)
+                        ->mapWithKeys(fn ($category) => [
+                            $category => $participants
+                                ->filter(fn ($participant) => in_array($category, $participant->categories ?? [], true))
+                                ->values(),
+                        ])
+                        ->filter(fn ($items) => $items->isNotEmpty());
                 @endphp
                 @if($participants->isNotEmpty())
                     <div class="participant-accordions">
@@ -223,12 +226,15 @@
                             <div class="participant-list">
                                 @foreach($participants as $participant)
                                     <article class="participant-item">
-                                        <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                         <div>
                                             <h3>{{ $participant->name }}</h3>
                                         </div>
-                                        @if($participant->category)
-                                            <span class="participant-category">{{ $participant->category }}</span>
+                                        @if($participant->categories)
+                                            <div class="participant-badges">
+                                                @foreach($participant->categories as $category)
+                                                    <span class="participant-category">{{ $category }}</span>
+                                                @endforeach
+                                            </div>
                                         @endif
                                     </article>
                                 @endforeach
@@ -246,7 +252,6 @@
                                 <div class="participant-list">
                                     @foreach($items as $participant)
                                         <article class="participant-item">
-                                            <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                             <div>
                                                 <h3>{{ $participant->name }}</h3>
                                             </div>
@@ -278,21 +283,18 @@
             <div class="container split">
                 @if($winnerGroups->isNotEmpty())
                     <div class="about-media">
-                        @if($winnerGroups->count() > 1)
-                            <div class="winner-tabs" data-winner-tabs role="tablist" aria-label="Kategori pemenang">
+                        <div class="winner-panel">
+                            <article class="winner-board">
+                                <header class="winner-board-head">
+                                    <h3>Papan Juara</h3>
+                                    <span>Galatama Harian</span>
+                                </header>
                                 @foreach($winnerGroups as $category => $items)
-                                    <button type="button" class="winner-tab @if($loop->first) active @endif" data-winner-tab="{{ $category }}">{{ $category }}</button>
-                                @endforeach
-                            </div>
-                        @endif
-                        @foreach($winnerGroups as $category => $items)
-                            <div class="winner-panel" data-winner-panel="{{ $category }}" @unless($loop->first) hidden @endunless>
-                                <article class="winner-board">
-                                    <header class="winner-board-head">
-                                        <h3>{{ $category === 'Umum' ? 'Pemenang' : 'Kategori '.$category }}</h3>
-                                        <span>{{ Winner::METRICS[$category] ?? 'Hasil' }}</span>
-                                    </header>
-                                    <div class="winner-rows">
+                                    <div class="winner-group">
+                                        <div class="winner-group-head">
+                                            <strong>{{ $category === 'Umum' ? 'Umum' : 'Kategori '.$category }}</strong>
+                                            <span>{{ Winner::METRICS[$category] ?? 'Hasil' }}</span>
+                                        </div>
                                         @foreach($items as $winner)
                                             <div class="winner-row @if($winner->rank === '1') winner-row-first @endif">
                                                 <span class="winner-medal winner-medal-{{ $winner->rank ?: 'none' }}">{{ $winner->rank === 'merah' ? 'M' : ($winner->rank ?: '•') }}</span>
@@ -308,9 +310,9 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                </article>
-                            </div>
-                        @endforeach
+                                @endforeach
+                            </article>
+                        </div>
                     </div>
                 @endif
                 <div class="about-copy">
