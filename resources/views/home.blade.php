@@ -257,46 +257,42 @@
         @endphp
 
         <section class="section reveal" id="tentang">
-            <div class="container split">
-                @if($winnerGroups->isNotEmpty())
-                    <div class="about-media">
-                        <div class="winner-panel">
-                            <article class="winner-board">
-                                <header class="winner-board-head">
-                                    <h3>Papan Juara</h3>
-                                    <span>Galatama Harian</span>
-                                </header>
-                                @foreach($winnerGroups as $category => $items)
-                                    <div class="winner-group">
-                                        <div class="winner-group-head">
-                                            <strong>{{ $category === 'Umum' ? 'Umum' : 'Kategori '.$category }}</strong>
-                                            <span>{{ Winner::METRICS[$category] ?? 'Hasil' }}</span>
-                                        </div>
-                                        @foreach($items as $winner)
-                                            <div class="winner-row @if($winner->rank === '1') winner-row-first @endif">
-                                                <span class="winner-medal winner-medal-{{ $winner->rank ?: 'none' }}">{{ $winner->rank === 'merah' ? 'M' : ($winner->rank ?: '•') }}</span>
-                                                <div class="winner-who">
-                                                    <strong>{{ $winner->name }}</strong>
-                                                    @if($winner->rank)
-                                                        <small>{{ Winner::RANKS[$winner->rank] ?? $winner->rank }}</small>
-                                                    @endif
-                                                </div>
-                                                @if($winner->value)
-                                                    <span class="winner-value">{{ $winner->value }}</span>
-                                                @endif
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endforeach
-                            </article>
-                        </div>
-                    </div>
-                @endif
-                <div class="about-copy">
+            <div class="container">
+                <div class="section-head">
                     <p class="eyebrow">Tentang Kami</p>
                     <h2>{{ $setting->about_title }}</h2>
                     <p>{{ $setting->about_description }}</p>
                 </div>
+                @if($winnerGroups->isNotEmpty())
+                    <div class="winner-grid-head">
+                        <h3>Papan Juara</h3>
+                        <span>Galatama Harian</span>
+                    </div>
+                    <div class="winner-grid" data-stagger>
+                        @foreach($winnerGroups as $category => $items)
+                            <article class="winner-card">
+                                <header class="winner-card-head">
+                                    <h4>{{ $category === 'Umum' ? 'Umum' : 'Kategori '.$category }}</h4>
+                                    <span>{{ Winner::METRICS[$category] ?? 'Hasil' }}</span>
+                                </header>
+                                @foreach($items as $winner)
+                                    <div class="winner-row @if($winner->rank === '1') winner-row-first @endif">
+                                        <span class="winner-medal winner-medal-{{ $winner->rank ?: 'none' }}">{{ $winner->rank === 'merah' ? 'M' : ($winner->rank ?: '•') }}</span>
+                                        <div class="winner-who">
+                                            <strong>{{ $winner->name }}</strong>
+                                            @if($winner->rank)
+                                                <small>{{ Winner::RANKS[$winner->rank] ?? $winner->rank }}</small>
+                                            @endif
+                                        </div>
+                                        @if($winner->value)
+                                            <span class="winner-value">{{ $winner->value }}</span>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </article>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </section>
 
