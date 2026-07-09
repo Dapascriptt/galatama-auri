@@ -29,6 +29,12 @@ class ParticipantController extends Controller
 
     public function store(Request $request)
     {
+        if (Participant::count() >= 24) {
+            return back()
+                ->withInput()
+                ->withErrors(['name' => 'Kuota penuh: maksimal 24 peserta. Hapus peserta lama terlebih dahulu.']);
+        }
+
         Participant::create($this->validated($request));
 
         return redirect()->route('admin.participants.index')->with('success', 'Peserta berhasil ditambahkan.');
@@ -59,6 +65,7 @@ class ParticipantController extends Controller
             'name' => ['required', 'string', 'max:120'],
             'categories' => ['nullable', 'array'],
             'categories.*' => ['in:'.implode(',', Participant::CATEGORIES)],
+            'kedi' => ['nullable', 'string', 'max:120'],
             'phone' => ['nullable', 'string', 'max:40'],
             'note' => ['nullable', 'string', 'max:160'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:999'],

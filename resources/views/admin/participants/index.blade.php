@@ -17,7 +17,15 @@
                 <tbody>
                     @forelse($participants as $participant)
                         <tr>
-                            <td><strong>{{ $participant->name }}</strong><small>{{ $participant->note }}</small></td>
+                            <td>
+                                <strong>{{ $participant->name }}</strong>
+                                @if($participant->kedi)
+                                    <small>Kedi: {{ $participant->kedi }}</small>
+                                @endif
+                                @if($participant->note)
+                                    <small>{{ $participant->note }}</small>
+                                @endif
+                            </td>
                             <td>{{ $participant->categories ? implode(', ', $participant->categories) : '-' }}</td>
                             <td>{{ $participant->phone ?: '-' }}</td>
                             <td>{{ $participant->is_active ? 'Aktif' : 'Nonaktif' }} / Urutan {{ $participant->sort_order }}</td>

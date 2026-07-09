@@ -223,22 +223,7 @@
                                     {!! $icon('chevron', 20) !!}
                                 </span>
                             </summary>
-                            <div class="participant-list">
-                                @foreach($participants as $participant)
-                                    <article class="participant-item">
-                                        <div>
-                                            <h3>{{ $participant->name }}</h3>
-                                        </div>
-                                        @if($participant->categories)
-                                            <div class="participant-badges">
-                                                @foreach($participant->categories as $category)
-                                                    <span class="participant-category">{{ $category }}</span>
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    </article>
-                                @endforeach
-                            </div>
+                            @include('partials.participant-columns', ['items' => $participants, 'showBadges' => true])
                         </details>
                         @foreach($participantGroups as $category => $items)
                             <details class="participant-accordion">
@@ -249,15 +234,7 @@
                                         {!! $icon('chevron', 20) !!}
                                     </span>
                                 </summary>
-                                <div class="participant-list">
-                                    @foreach($items as $participant)
-                                        <article class="participant-item">
-                                            <div>
-                                                <h3>{{ $participant->name }}</h3>
-                                            </div>
-                                        </article>
-                                    @endforeach
-                                </div>
+                                @include('partials.participant-columns', ['items' => $items])
                             </details>
                         @endforeach
                     </div>

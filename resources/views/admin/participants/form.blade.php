@@ -15,9 +15,15 @@
     @error('categories') <small class="form-error">{{ $message }}</small> @enderror
     @error('categories.*') <small class="form-error">{{ $message }}</small> @enderror
 </fieldset>
-<label>Nomor WhatsApp / Telepon
-    <input name="phone" value="{{ old('phone', $participant->phone) }}">
-</label>
+<div class="form-grid two">
+    <label>Kedi (asisten, opsional)
+        <input name="kedi" value="{{ old('kedi', $participant->kedi) }}" placeholder="cth: Ujang">
+        @error('kedi') <small class="form-error">{{ $message }}</small> @enderror
+    </label>
+    <label>Nomor WhatsApp / Telepon
+        <input name="phone" value="{{ old('phone', $participant->phone) }}">
+    </label>
+</div>
 <label>Urutan
     <input type="number" min="0" name="sort_order" value="{{ old('sort_order', $participant->sort_order ?? 0) }}">
 </label>
